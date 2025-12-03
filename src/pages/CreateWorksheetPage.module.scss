@@ -1,0 +1,12 @@
+@import "../styles/variables.scss";
+
+.container {
+  padding: $spacing-xl;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  h1 {
+    font-size: 2rem;
+    margin-bottom: $spacing-lg;
+  }
+}

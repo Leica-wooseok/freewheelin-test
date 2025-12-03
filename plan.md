@@ -1,0 +1,4 @@
+- 취업 과제를 위한 프로젝트
+- React + Typescript 환경
+- React-query 사용
+- scss module 사용
