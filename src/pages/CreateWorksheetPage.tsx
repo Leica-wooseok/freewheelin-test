@@ -1,11 +1,18 @@
-import styles from './CreateWorksheetPage.module.scss'
+import styles from "./CreateWorksheetPage.module.scss";
+import EmptyWorksheetView from "./CreateWorksheetPage/EmptyWorksheetView";
+import WorksheetList from "./CreateWorksheetPage/WorksheetList";
 
 function CreateWorksheetPage() {
   return (
-    <div className={styles.container}>
-      <h1>학습지 만들기</h1>
+    <div className={styles.wrap}>
+      <main className={styles.container}>
+        <WorksheetList type="similar">
+          <EmptyWorksheetView />
+        </WorksheetList>
+        <WorksheetList type="basic">2</WorksheetList>
+      </main>
     </div>
-  )
+  );
 }
 
-export default CreateWorksheetPage
+export default CreateWorksheetPage;

@@ -1,4 +1,5 @@
 @import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
+@import "./mixins.scss";
 
 /* Reset start */
 *,
@@ -24,6 +25,7 @@ blockquote,
 dl,
 dd {
   margin-block-end: 0;
+  margin: 0;
 }
 
 ul[role="list"],
@@ -93,4 +95,8 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+.typo_body2 {
+  @include typo-body2;
 }
