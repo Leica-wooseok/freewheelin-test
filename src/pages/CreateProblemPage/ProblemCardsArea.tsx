@@ -1,16 +1,13 @@
 import styles from "../CreateProblemsPage.module.scss";
 import BasicProblemCard from "@/components/ProblemCard/BasicProblemCard";
-import type { Problem } from "@/types/problem";
-import { useDeleteProblem } from "@/hooks/useProblems";
+import { useProblemContext } from "@/contexts/ProblemContext";
 
-type ProblemCardsAreaProps = {
-  problems: Problem[];
-  activeProblemId: number | null;
-  onSimilarClick: (problemId: number) => void;
-};
+function ProblemCardsArea() {
+  const { problems, activeProblemId, setActiveProblemId, deleteProblem } = useProblemContext();
 
-function ProblemCardsArea({ problems, activeProblemId, onSimilarClick }: ProblemCardsAreaProps) {
-  const { mutate: deleteProblem } = useDeleteProblem();
+  const handleSimilarClick = (problemId: number) => {
+    setActiveProblemId(problemId);
+  };
 
   const handleDeleteClick = (problemId: number) => {
     deleteProblem(problemId);
@@ -24,7 +21,7 @@ function ProblemCardsArea({ problems, activeProblemId, onSimilarClick }: Problem
           problem={problem}
           index={index + 1}
           isActive={problem.id === activeProblemId}
-          onSimilarClick={() => onSimilarClick(problem.id)}
+          onSimilarClick={() => handleSimilarClick(problem.id)}
           onDeleteClick={() => handleDeleteClick(problem.id)}
         />
       ))}

@@ -3,15 +3,10 @@ import styles from "../CreateProblemsPage.module.scss";
 import ProblemList from "./ProblemList";
 import EmptySimilarProblemPlaceholder from "./EmptySimilarProblemPlaceholder";
 import SimilarProblemCard from "@/components/ProblemCard/SimilarProblemCard";
-import type { Problem } from "@/types/problem";
+import { useProblemContext } from "@/contexts/ProblemContext";
 
-type SimilarProblemsSectionProps = {
-  problems?: Problem[];
-};
-
-function SimilarProblemsSection({
-  problems = [],
-}: SimilarProblemsSectionProps) {
+function SimilarProblemsSection() {
+  const { similarProblems } = useProblemContext();
   const [activeProblemId, setActiveProblemId] = useState<number | null>(null);
 
   const handleChangeClick = (problemId: number) => {
@@ -23,6 +18,7 @@ function SimilarProblemsSection({
     // TODO: 추가 로직 구현
   };
 
+  const problems = similarProblems || [];
   const hasProblems = problems.length > 0;
 
   return (
@@ -36,7 +32,6 @@ function SimilarProblemsSection({
                 key={problem.id}
                 problem={problem}
                 index={index + 1}
-                isActive={problem.id === activeProblemId}
                 onChangeClick={() => handleChangeClick(problem.id)}
                 onAddClick={() => handleAddClick(problem.id)}
               />

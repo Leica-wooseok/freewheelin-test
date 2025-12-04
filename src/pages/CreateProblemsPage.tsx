@@ -1,20 +1,20 @@
-import { useState } from "react";
 import styles from "./CreateProblemsPage.module.scss";
 import SimilarProblemsSection from "./CreateProblemPage/SimilarProblemsSection";
 import BasicProblemsSection from "./CreateProblemPage/BasicProblemsSection";
-import { useProblems, useSimilarProblems } from "@/hooks/useProblems";
+import { ProblemProvider, useProblemContext } from "@/contexts/ProblemContext";
 import type { DifficultyLevel } from "@/types/problem";
 import type { DifficultyCount } from "./CreateProblemPage/ProblemFooter";
 
 function CreateProblemPage() {
-  const { data, isLoading, error } = useProblems();
-  const [activeProblemId, setActiveProblemId] = useState<number | null>(null);
+  return (
+    <ProblemProvider>
+      <CreateProblemPageContent />
+    </ProblemProvider>
+  );
+}
 
-  const problems = data || [];
-  const excludedIds = problems.map((p) => p.id);
-
-  // activeProblemId가 설정되면 자동으로 유사 문제 fetch
-  const { data: similarProblems } = useSimilarProblems(activeProblemId, excludedIds);
+function CreateProblemPageContent() {
+  const { problems, isLoading, error } = useProblemContext();
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -27,20 +27,13 @@ function CreateProblemPage() {
   const difficultyCount = calculateDifficultyCount(problems);
   const totalProblems = problems.length;
 
-  const handleSimilarClick = (problemId: number) => {
-    setActiveProblemId(problemId);
-  };
-
   return (
     <div className={styles.wrap}>
       <main className={styles.container}>
-        <SimilarProblemsSection problems={similarProblems} />
+        <SimilarProblemsSection />
         <BasicProblemsSection
           difficultyCount={difficultyCount}
           totalProblems={totalProblems}
-          problems={problems}
-          activeProblemId={activeProblemId}
-          onSimilarClick={handleSimilarClick}
         />
       </main>
     </div>

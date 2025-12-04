@@ -8,7 +8,6 @@ import type { Problem } from "@/types/problem";
 type SimilarProblemCardProps = {
   problem: Problem;
   index: number;
-  isActive?: boolean;
   onChangeClick?: () => void;
   onAddClick?: () => void;
 };
@@ -16,7 +15,6 @@ type SimilarProblemCardProps = {
 function SimilarProblemCard({
   problem,
   index,
-  isActive = false,
   onChangeClick,
   onAddClick,
 }: SimilarProblemCardProps) {
@@ -25,7 +23,6 @@ function SimilarProblemCard({
 
   return (
     <ProblemCardBase
-      isActive={isActive}
       cardBody={
         <CardBody
           level={problem.level}
