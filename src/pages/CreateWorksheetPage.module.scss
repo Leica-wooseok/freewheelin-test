@@ -86,6 +86,13 @@
   gap: 16px;
   overflow-y: auto;
   @include flex-column;
+
+  /* 스크롤바 숨김 */
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+  }
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 .worksheet_list_footer {
   margin-top: auto;

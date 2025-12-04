@@ -6,27 +6,32 @@ import WorksheetCard from "@/components/WorksheetCard";
 import WorksheetFooter, {
   type DifficultyCount,
 } from "./CreateWorksheetPage/WorksheetFooter";
-
-const MOCK_DATA = {
-  DIFFICULTY_COUNT: {
-    level1: 10,
-    level2: 10,
-    level3: 10,
-    level4: 10,
-    level5: 10,
-  } as DifficultyCount,
-} as const;
+import { useProblems } from "@/hooks/useProblems";
+import type { DifficultyLevel, Problem } from "@/types/problem";
 
 function CreateWorksheetPage() {
-  const totalProblems = calculateTotalProblems(MOCK_DATA.DIFFICULTY_COUNT);
+  const { data, isLoading, error } = useProblems();
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
+  const problems = data || [];
+  const difficultyCount = calculateDifficultyCount(problems);
+  const totalProblems = problems.length;
 
   return (
     <div className={styles.wrap}>
       <main className={styles.container}>
         <SimilarProblemsSection />
         <BasicProblemsSection
-          difficultyCount={MOCK_DATA.DIFFICULTY_COUNT}
+          difficultyCount={difficultyCount}
           totalProblems={totalProblems}
+          problems={problems}
         />
       </main>
     </div>
@@ -44,17 +49,24 @@ function SimilarProblemsSection() {
 type BasicProblemsSectionProps = {
   difficultyCount: DifficultyCount;
   totalProblems: number;
+  problems: Problem[];
 };
 
 function BasicProblemsSection({
   difficultyCount,
   totalProblems,
+  problems,
 }: BasicProblemsSectionProps) {
+  const hasProblems = problems.length > 0;
+
   return (
     <WorksheetList type="basic">
       <h2 className={styles.worksheet_title}>학습지 상세 편집</h2>
-      <WorksheetCardsArea />
-      <EmptyBasicWorksheetPlaceholer />
+      {hasProblems ? (
+        <WorksheetCardsArea problems={problems} />
+      ) : (
+        <EmptyBasicWorksheetPlaceholer />
+      )}
       <WorksheetFooter
         difficultyCount={difficultyCount}
         totalProblems={totalProblems}
@@ -63,16 +75,46 @@ function BasicProblemsSection({
   );
 }
 
-function WorksheetCardsArea() {
+type WorksheetCardsAreaProps = {
+  problems: Problem[];
+};
+
+function WorksheetCardsArea({ problems }: WorksheetCardsAreaProps) {
   return (
     <div className={styles.worksheet_list_wrap}>
-      <WorksheetCard isActive={true} />
+      {problems.map((problem, index) => (
+        <WorksheetCard
+          key={problem.id}
+          index={index + 1}
+          title={problem.title}
+          level={problem.level}
+          answerRate={problem.answerRate}
+          problemImageUrl={problem.problemImageUrl}
+          problemType={problem.type}
+          isActive={index === 0}
+        />
+      ))}
     </div>
   );
 }
 
-function calculateTotalProblems(difficultyCount: DifficultyCount): number {
-  return Object.values(difficultyCount).reduce((sum, count) => sum + count, 0);
+function calculateDifficultyCount(
+  problems: Array<{ level: DifficultyLevel }>
+): DifficultyCount {
+  const count: DifficultyCount = {
+    level1: 0,
+    level2: 0,
+    level3: 0,
+    level4: 0,
+    level5: 0,
+  };
+
+  problems.forEach((problem) => {
+    const key = `level${problem.level}` as keyof DifficultyCount;
+    count[key]++;
+  });
+
+  return count;
 }
 
 export default CreateWorksheetPage;
