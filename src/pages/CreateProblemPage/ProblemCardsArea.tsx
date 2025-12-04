@@ -1,20 +1,11 @@
 import styles from "../CreateProblemsPage.module.scss";
 import BasicProblemCard from "@/components/ProblemCard/BasicProblemCard";
 import { useProblemContext } from "@/contexts/ProblemContext";
+import { useProblemCardActions } from "@/hooks/useProblemCardActions";
 
 function ProblemCardsArea() {
-  const { problems, activeProblemId, setActiveProblemId, deleteProblem } =
-    useProblemContext();
-
-  const handleSimilarClick = (problemId: number) => {
-    setActiveProblemId(problemId);
-  };
-
-  const handleDeleteClick = (problemId: number) => {
-    deleteProblem(problemId);
-
-    if (problemId === activeProblemId) setActiveProblemId(null);
-  };
+  const { problems, activeProblemId } = useProblemContext();
+  const { handleSimilarClick, handleDeleteClick } = useProblemCardActions();
 
   return (
     <div className={styles.problem_list_wrap}>

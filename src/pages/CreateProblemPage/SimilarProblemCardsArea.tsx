@@ -1,26 +1,11 @@
 import styles from "../CreateProblemsPage.module.scss";
 import SimilarProblemCard from "@/components/ProblemCard/SimilarProblemCard";
 import { useProblemContext } from "@/contexts/ProblemContext";
+import { useProblemCardActions } from "@/hooks/useProblemCardActions";
 
 function SimilarProblemCardsArea() {
-  const { similarProblems, addProblemAfterActive, replaceProblemWithActive } =
-    useProblemContext();
-
-  const handleChangeClick = (problemId: number) => {
-    const problem = similarProblems?.find((p) => p.id === problemId);
-    if (!problem) return;
-
-    // 유사문제 리스트의 해당 문제와 active 된 문제 교환
-    replaceProblemWithActive(problem);
-  };
-
-  const handleAddClick = (problemId: number) => {
-    const problem = similarProblems?.find((p) => p.id === problemId);
-    if (!problem) return;
-
-    // 현재 문제를 Active 된 문제 바로 뒤에 추가하고 SimilarProblems 리스트에서 제거
-    addProblemAfterActive(problem);
-  };
+  const { similarProblems } = useProblemContext();
+  const { handleChangeClick, handleAddClick } = useProblemCardActions();
 
   const problems = similarProblems || [];
 
