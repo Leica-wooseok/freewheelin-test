@@ -1,5 +1,6 @@
 import styles from "./CreateWorksheetPage.module.scss";
-import EmptyWorksheetView from "./CreateWorksheetPage/EmptyWorksheetView";
+import EmptySimilarWorksheetView from "./CreateWorksheetPage/EmptySimilarWorksheetView";
+import EmptyBasicWorksheetView from "./CreateWorksheetPage/EmptyBasicWorksheetView";
 import WorksheetList from "./CreateWorksheetPage/WorksheetList";
 
 function CreateWorksheetPage() {
@@ -7,9 +8,14 @@ function CreateWorksheetPage() {
     <div className={styles.wrap}>
       <main className={styles.container}>
         <WorksheetList type="similar">
-          <EmptyWorksheetView />
+          {/* 유사문제 없는 경우의 view */}
+          <EmptySimilarWorksheetView />
         </WorksheetList>
-        <WorksheetList type="basic">2</WorksheetList>
+
+        <WorksheetList type="basic">
+          {/* 기본 문제 없는 경우의 view */}
+          <EmptyBasicWorksheetView />
+        </WorksheetList>
       </main>
     </div>
   );

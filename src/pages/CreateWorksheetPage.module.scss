@@ -32,11 +32,19 @@
 .similar_problems_list {
   flex: 1 1 504px;
   background-color: #e8e8e8;
+
+  & .empty_worksheet_wrap {
+    color: $gray-900;
+  }
 }
 .basic_problems_list {
   padding-bottom: 0;
   flex: 1 1 712px;
   background: $gray-800;
+
+  & .empty_worksheet_wrap {
+    color: $color-white;
+  }
 }
 
 .empty_worksheet_wrap {

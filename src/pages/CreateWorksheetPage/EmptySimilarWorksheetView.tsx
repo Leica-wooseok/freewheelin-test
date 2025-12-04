@@ -1,7 +1,7 @@
 import styles from "../CreateWorksheetPage.module.scss";
 import AddCircleIcon from "@/assets/images/add-circle.svg?react";
 
-function EmptyWorksheetView() {
+function EmptySimilarWorksheetView() {
   return (
     <div className={styles.empty_worksheet_wrap}>
       <p className={"typo_body2"}>
@@ -16,4 +16,4 @@ function EmptyWorksheetView() {
   );
 }
 
-export default EmptyWorksheetView;
+export default EmptySimilarWorksheetView;
