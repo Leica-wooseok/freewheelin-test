@@ -1,11 +1,11 @@
 import styles from "../CreateWorksheetPage.module.scss";
 
-interface WorksheetListProps {
+interface ProblemListProps {
   type: "similar" | "basic";
   children?: React.ReactNode;
 }
 
-function WorksheetList({ type, children }: WorksheetListProps) {
+function ProblemList({ type, children }: ProblemListProps) {
   const className =
     type === "similar"
       ? styles.similar_problems_list
@@ -14,4 +14,4 @@ function WorksheetList({ type, children }: WorksheetListProps) {
   return <section className={className}>{children}</section>;
 }
 
-export default WorksheetList;
+export default ProblemList;

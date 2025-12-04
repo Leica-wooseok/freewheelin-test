@@ -1,6 +1,6 @@
 import styles from "../CreateWorksheetPage.module.scss";
 
-function EmptyBasicWorksheetPlaceholer() {
+function EmptyBasicProblemPlaceholer() {
   return (
     <div className={styles.empty_worksheet_wrap}>
       <p className={"typo_body2"}>학습지 문제수가 없습니다.</p>
@@ -11,4 +11,4 @@ function EmptyBasicWorksheetPlaceholer() {
   );
 }
 
-export default EmptyBasicWorksheetPlaceholer;
+export default EmptyBasicProblemPlaceholer;

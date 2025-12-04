@@ -1,11 +1,11 @@
 import styles from "./CreateWorksheetPage.module.scss";
-import EmptySimilarWorksheetPlaceholder from "./CreateWorksheetPage/EmptySimilarWorksheetPlaceholder";
-import EmptyBasicWorksheetPlaceholer from "./CreateWorksheetPage/EmptyBasicWorksheetPlaceholer";
-import WorksheetList from "./CreateWorksheetPage/WorksheetList";
+import EmptySimilarProblemPlaceholder from "./CreateProblemPage/EmptySimilarProblemPlaceholder";
+import EmptyBasicProblemPlaceholer from "./CreateProblemPage/EmptyBasicProblemPlaceholer";
+import ProblemList from "./CreateProblemPage/ProblemList";
 import WorksheetCard from "@/components/WorksheetCard";
 import WorksheetFooter, {
   type DifficultyCount,
-} from "./CreateWorksheetPage/WorksheetFooter";
+} from "./CreateProblemPage/WorksheetFooter";
 import { useProblems } from "@/hooks/useProblems";
 import type { DifficultyLevel, Problem } from "@/types/problem";
 
@@ -40,9 +40,9 @@ function CreateWorksheetPage() {
 
 function SimilarProblemsSection() {
   return (
-    <WorksheetList type="similar">
-      <EmptySimilarWorksheetPlaceholder />
-    </WorksheetList>
+    <ProblemList type="similar">
+      <EmptySimilarProblemPlaceholder />
+    </ProblemList>
   );
 }
 
@@ -60,18 +60,18 @@ function BasicProblemsSection({
   const hasProblems = problems.length > 0;
 
   return (
-    <WorksheetList type="basic">
+    <ProblemList type="basic">
       <h2 className={styles.worksheet_title}>학습지 상세 편집</h2>
       {hasProblems ? (
         <WorksheetCardsArea problems={problems} />
       ) : (
-        <EmptyBasicWorksheetPlaceholer />
+        <EmptyBasicProblemPlaceholer />
       )}
       <WorksheetFooter
         difficultyCount={difficultyCount}
         totalProblems={totalProblems}
       />
-    </WorksheetList>
+    </ProblemList>
   );
 }
 

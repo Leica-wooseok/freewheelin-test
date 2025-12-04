@@ -10,7 +10,7 @@ import { colorsHex } from "@/styles/colors";
 type ProblemType = 1 | 2;
 type DifficultyLevel = 1 | 2 | 3 | 4 | 5;
 
-type WorksheetCardProps = {
+type ProblemCardProps = {
   index?: number | string;
   title?: string;
   isActive?: boolean;
@@ -24,7 +24,7 @@ type WorksheetCardProps = {
 
 const DEFAULT_VALUES = {
   INDEX: "1",
-  TITLE: "Worksheet name title ~",
+  TITLE: "Problem name title ~",
   LEVEL: 1 as DifficultyLevel,
   ANSWER_RATE: 72,
   PROBLEM_TYPE: 2 as ProblemType,
@@ -36,7 +36,7 @@ const PROBLEM_TYPE_LABELS: Record<ProblemType, string> = {
   2: "주관식",
 };
 
-function WorksheetCard({
+function ProblemCard({
   index = DEFAULT_VALUES.INDEX,
   title = DEFAULT_VALUES.TITLE,
   isActive = false,
@@ -46,7 +46,7 @@ function WorksheetCard({
   problemType = DEFAULT_VALUES.PROBLEM_TYPE,
   onSimilarClick,
   onDeleteClick,
-}: WorksheetCardProps) {
+}: ProblemCardProps) {
   const cardClassName = clsx(styles.worksheet_card, {
     [styles.active]: isActive,
   });
@@ -171,4 +171,4 @@ function ProblemImageBox({ imageUrl }: ProblemImageBoxProps) {
   );
 }
 
-export default WorksheetCard;
+export default ProblemCard;

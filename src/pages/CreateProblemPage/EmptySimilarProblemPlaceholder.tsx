@@ -1,7 +1,7 @@
 import styles from "../CreateWorksheetPage.module.scss";
 import AddCircleIcon from "@/assets/images/add-circle.svg?react";
 
-function EmptySimilarWorksheetPlaceholder() {
+function EmptySimilarProblemPlaceholder() {
   return (
     <div className={styles.empty_worksheet_wrap}>
       <p className={"typo_body2"}>
@@ -16,4 +16,4 @@ function EmptySimilarWorksheetPlaceholder() {
   );
 }
 
-export default EmptySimilarWorksheetPlaceholder;
+export default EmptySimilarProblemPlaceholder;
