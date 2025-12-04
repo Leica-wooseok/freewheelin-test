@@ -11,25 +11,16 @@ type ProblemType = 1 | 2;
 type DifficultyLevel = 1 | 2 | 3 | 4 | 5;
 
 type ProblemCardProps = {
-  index?: number | string;
-  title?: string;
+  index: number;
+  title: string;
   isActive?: boolean;
-  level?: DifficultyLevel;
-  answerRate?: number;
-  problemImageUrl?: string;
-  problemType?: ProblemType;
+  level: DifficultyLevel;
+  answerRate: number;
+  problemImageUrl: string;
+  problemType: ProblemType;
   onSimilarClick?: () => void;
   onDeleteClick?: () => void;
 };
-
-const DEFAULT_VALUES = {
-  INDEX: "1",
-  TITLE: "Problem name title ~",
-  LEVEL: 1 as DifficultyLevel,
-  ANSWER_RATE: 72,
-  PROBLEM_TYPE: 2 as ProblemType,
-  IMAGE_ALT: "문제 이미지",
-} as const;
 
 const PROBLEM_TYPE_LABELS: Record<ProblemType, string> = {
   1: "객관식",
@@ -37,13 +28,13 @@ const PROBLEM_TYPE_LABELS: Record<ProblemType, string> = {
 };
 
 function ProblemCard({
-  index = DEFAULT_VALUES.INDEX,
-  title = DEFAULT_VALUES.TITLE,
+  index,
+  title,
   isActive = false,
-  level = DEFAULT_VALUES.LEVEL,
-  answerRate = DEFAULT_VALUES.ANSWER_RATE,
+  level,
+  answerRate,
   problemImageUrl,
-  problemType = DEFAULT_VALUESproblem_TYPE,
+  problemType,
   onSimilarClick,
   onDeleteClick,
 }: ProblemCardProps) {
@@ -166,7 +157,7 @@ function ProblemImageBox({ imageUrl }: ProblemImageBoxProps) {
 
   return (
     <div className={styles.card_problem_image_box}>
-      <img src={imageUrl} alt={DEFAULT_VALUES.IMAGE_ALT} />
+      <img src={imageUrl} alt={""} />
     </div>
   );
 }

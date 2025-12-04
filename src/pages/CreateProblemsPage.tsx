@@ -1,13 +1,9 @@
 import styles from "./CreateProblemsPage.module.scss";
-import EmptySimilarProblemPlaceholder from "./CreateProblemPage/EmptySimilarProblemPlaceholder";
-import EmptyBasicProblemPlaceholer from "./CreateProblemPage/EmptyBasicProblemPlaceholer";
-import ProblemList from "./CreateProblemPage/ProblemList";
-import ProblemCard from "@/components/ProblemCard";
-import ProblemFooter, {
-  type DifficultyCount,
-} from "./CreateProblemPage/ProblemFooter";
+import SimilarProblemsSection from "./CreateProblemPage/SimilarProblemsSection";
+import BasicProblemsSection from "./CreateProblemPage/BasicProblemsSection";
 import { useProblems } from "@/hooks/useProblems";
-import type { DifficultyLevel, Problem } from "@/types/problem";
+import type { DifficultyLevel } from "@/types/problem";
+import type { DifficultyCount } from "./CreateProblemPage/ProblemFooter";
 
 function CreateProblemPage() {
   const { data, isLoading, error } = useProblems();
@@ -34,66 +30,6 @@ function CreateProblemPage() {
           problems={problems}
         />
       </main>
-    </div>
-  );
-}
-
-function SimilarProblemsSection() {
-  return (
-    <ProblemList type="similar">
-      <EmptySimilarProblemPlaceholder />
-    </ProblemList>
-  );
-}
-
-type BasicProblemsSectionProps = {
-  difficultyCount: DifficultyCount;
-  totalProblems: number;
-  problems: Problem[];
-};
-
-function BasicProblemsSection({
-  difficultyCount,
-  totalProblems,
-  problems,
-}: BasicProblemsSectionProps) {
-  const hasProblems = problems.length > 0;
-
-  return (
-    <ProblemList type="basic">
-      <h2 className={styles.problem_title}>학습지 상세 편집</h2>
-      {hasProblems ? (
-        <ProblemCardsArea problems={problems} />
-      ) : (
-        <EmptyBasicProblemPlaceholer />
-      )}
-      <ProblemFooter
-        difficultyCount={difficultyCount}
-        totalProblems={totalProblems}
-      />
-    </ProblemList>
-  );
-}
-
-type ProblemCardsAreaProps = {
-  problems: Problem[];
-};
-
-function ProblemCardsArea({ problems }: ProblemCardsAreaProps) {
-  return (
-    <div className={styles.problem_list_wrap}>
-      {problems.map((problem, index) => (
-        <ProblemCard
-          key={problem.id}
-          index={index + 1}
-          title={problem.title}
-          level={problem.level}
-          answerRate={problem.answerRate}
-          problemImageUrl={problem.problemImageUrl}
-          problemType={problem.type}
-          isActive={index === 0}
-        />
-      ))}
     </div>
   );
 }
