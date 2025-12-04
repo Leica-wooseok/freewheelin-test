@@ -7,26 +7,45 @@ import AddCircleIcon from "@/assets/images/add-circle.svg?react";
 import DeleteIcon from "@/assets/images/delete.svg?react";
 import { colorsHex } from "@/styles/colors";
 
-interface WorksheetCardProps {
+type ProblemType = 1 | 2;
+type DifficultyLevel = 1 | 2 | 3 | 4 | 5;
+
+type WorksheetCardProps = {
   index?: number | string;
   title?: string;
   isActive?: boolean;
+  level?: DifficultyLevel;
+  answerRate?: number;
+  problemImageUrl?: string;
+  problemType?: ProblemType;
   onSimilarClick?: () => void;
   onDeleteClick?: () => void;
-  children?: React.ReactNode;
-}
+};
 
-const DEFAULT_INDEX = "1";
-const DEFAULT_TITLE = "Worksheet name title ~";
-const DEFAULT_BODY = "Card Body";
+const DEFAULT_VALUES = {
+  INDEX: "1",
+  TITLE: "Worksheet name title ~",
+  LEVEL: 1 as DifficultyLevel,
+  ANSWER_RATE: 72,
+  PROBLEM_TYPE: 2 as ProblemType,
+  IMAGE_ALT: "문제 이미지",
+} as const;
+
+const PROBLEM_TYPE_LABELS: Record<ProblemType, string> = {
+  1: "객관식",
+  2: "주관식",
+};
 
 function WorksheetCard({
-  index = DEFAULT_INDEX,
-  title = DEFAULT_TITLE,
+  index = DEFAULT_VALUES.INDEX,
+  title = DEFAULT_VALUES.TITLE,
   isActive = false,
+  level = DEFAULT_VALUES.LEVEL,
+  answerRate = DEFAULT_VALUES.ANSWER_RATE,
+  problemImageUrl,
+  problemType = DEFAULT_VALUES.PROBLEM_TYPE,
   onSimilarClick,
   onDeleteClick,
-  children = DEFAULT_BODY,
 }: WorksheetCardProps) {
   const cardClassName = clsx(styles.worksheet_card, {
     [styles.active]: isActive,
@@ -43,17 +62,22 @@ function WorksheetCard({
         onSimilarClick={handleSimilarClick}
         onDeleteClick={handleDeleteClick}
       />
-      <CardBody>{children}</CardBody>
+      <CardBody
+        level={level}
+        answerRate={answerRate}
+        problemImageUrl={problemImageUrl}
+        problemType={problemType}
+      />
     </div>
   );
 }
 
-interface CardHeaderProps {
+type CardHeaderProps = {
   index: number | string;
   title: string;
   onSimilarClick: () => void;
   onDeleteClick: () => void;
-}
+};
 
 function CardHeader({
   index,
@@ -83,22 +107,66 @@ function CardHeader({
   );
 }
 
-interface CardBodyProps {
-  children: React.ReactNode;
-}
+type CardBodyProps = {
+  level: DifficultyLevel;
+  answerRate: number;
+  problemImageUrl?: string;
+  problemType: ProblemType;
+};
 
-function CardBody() {
+function CardBody({
+  level,
+  answerRate,
+  problemImageUrl,
+  problemType,
+}: CardBodyProps) {
+  const answerRateLabel = `${answerRate}%`;
+  const problemTypeLabel = PROBLEM_TYPE_LABELS[problemType];
+
   return (
     <div className={styles.card_body}>
-      <div className={styles.card_body_badge_group}>
-        <DifficultyBadge level={1} />
-        <CardBadge label="72%" color={colorsHex.gray700} />
-        <CardBadge label="주관식" color={colorsHex.gray600} />
-      </div>
-      <div className={styles.card_worksheet_image_box}>
-        {/* TODO:문제 이미지 */}
-        <img src="" alt="" />
-      </div>
+      <BadgeGroup
+        level={level}
+        answerRateLabel={answerRateLabel}
+        problemTypeLabel={problemTypeLabel}
+      />
+      <ProblemImageBox imageUrl={problemImageUrl} />
+    </div>
+  );
+}
+
+type BadgeGroupProps = {
+  level: DifficultyLevel;
+  answerRateLabel: string;
+  problemTypeLabel: string;
+};
+
+function BadgeGroup({
+  level,
+  answerRateLabel,
+  problemTypeLabel,
+}: BadgeGroupProps) {
+  return (
+    <div className={styles.card_body_badge_group}>
+      <DifficultyBadge level={level} />
+      <CardBadge label={answerRateLabel} color={colorsHex.gray700} />
+      <CardBadge label={problemTypeLabel} color={colorsHex.gray600} />
+    </div>
+  );
+}
+
+type ProblemImageBoxProps = {
+  imageUrl?: string;
+};
+
+function ProblemImageBox({ imageUrl }: ProblemImageBoxProps) {
+  if (!imageUrl) {
+    return null;
+  }
+
+  return (
+    <div className={styles.card_worksheet_image_box}>
+      <img src={imageUrl} alt={DEFAULT_VALUES.IMAGE_ALT} />
     </div>
   );
 }
