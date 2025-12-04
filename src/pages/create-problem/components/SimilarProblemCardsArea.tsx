@@ -1,4 +1,4 @@
-import styles from "../CreateProblemsPage.module.scss";
+import styles from "../styles.module.scss";
 import SimilarProblemCard from "@/components/ProblemCard/SimilarProblemCard";
 import { useProblemContext } from "@/contexts/ProblemContext";
 import { useProblemCardActions } from "@/hooks/useProblemCardActions";

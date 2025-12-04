@@ -1,6 +1,6 @@
-import styles from "./CreateProblemsPage.module.scss";
-import SimilarProblemsSection from "./CreateProblemPage/SimilarProblemsSection";
-import BasicProblemsSection from "./CreateProblemPage/BasicProblemsSection";
+import styles from "./styles.module.scss";
+import SimilarProblemsSection from "./components/SimilarProblemsSection";
+import BasicProblemsSection from "./components/BasicProblemsSection";
 import { ProblemProvider, useProblemContext } from "@/contexts/ProblemContext";
 
 function CreateProblemPage() {

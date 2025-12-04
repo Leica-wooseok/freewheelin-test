@@ -63,7 +63,12 @@ export function useAddProblem() {
   return useMutation({
     mutationFn: async ({ problem, afterProblemId }: AddProblemParams) => {
       // 클라이언트 사이드에서만 추가 (서버 요청 없음)
-      console.log("Adding problem (client-side only):", problem.id, "after", afterProblemId);
+      console.log(
+        "Adding problem (client-side only):",
+        problem.id,
+        "after",
+        afterProblemId
+      );
       return Promise.resolve();
     },
     onMutate: async ({ problem, afterProblemId }) => {
@@ -99,9 +104,17 @@ export function useReplaceProblem() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ targetProblemId, newProblem }: ReplaceProblemParams) => {
+    mutationFn: async ({
+      targetProblemId,
+      newProblem,
+    }: ReplaceProblemParams) => {
       // 클라이언트 사이드에서만 교체 (서버 요청 없음)
-      console.log("Replacing problem (client-side only):", targetProblemId, "with", newProblem.id);
+      console.log(
+        "Replacing problem (client-side only):",
+        targetProblemId,
+        "with",
+        newProblem.id
+      );
       return Promise.resolve();
     },
     onMutate: async ({ targetProblemId, newProblem }) => {

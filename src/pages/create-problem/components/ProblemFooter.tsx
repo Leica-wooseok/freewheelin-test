@@ -1,4 +1,4 @@
-import styles from "../CreateProblemsPage.module.scss";
+import styles from "../styles.module.scss";
 import clsx from "clsx";
 
 type DifficultyCount = {

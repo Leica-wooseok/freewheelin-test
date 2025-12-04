@@ -1,4 +1,4 @@
-import styles from "../CreateProblemsPage.module.scss";
+import styles from "../styles.module.scss";
 
 function EmptyBasicProblemPlaceholer() {
   return (

@@ -1,4 +1,4 @@
-import styles from "../CreateProblemsPage.module.scss";
+import styles from "../styles.module.scss";
 import ProblemList from "./ProblemList";
 import EmptySimilarProblemPlaceholder from "./EmptySimilarProblemPlaceholder";
 import { useProblemContext } from "@/contexts/ProblemContext";

@@ -1,4 +1,4 @@
-import CreateProblemPage from "./pages/CreateProblemsPage";
+import CreateProblemPage from "./pages/create-problem";
 
 function App() {
   return (
