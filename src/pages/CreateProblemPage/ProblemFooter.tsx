@@ -1,4 +1,4 @@
-import styles from "../CreateWorksheetPage.module.scss";
+import styles from "../CreateProblemsPage.module.scss";
 
 type DifficultyCount = {
   level1: number;
@@ -8,19 +8,16 @@ type DifficultyCount = {
   level5: number;
 };
 
-type WorksheetFooterProps = {
+type ProblemFooterProps = {
   difficultyCount: DifficultyCount;
   totalProblems: number;
 };
 
-function WorksheetFooter({
-  difficultyCount,
-  totalProblems,
-}: WorksheetFooterProps) {
+function ProblemFooter({ difficultyCount, totalProblems }: ProblemFooterProps) {
   const difficultySummary = formatDifficultySummary(difficultyCount);
 
   return (
-    <div className={styles.worksheet_list_footer}>
+    <div className={styles.problem_list_footer}>
       <p>{difficultySummary}</p>
       <div>|</div>
       <p className={styles.total}>문제 수 {totalProblems} 개</p>
@@ -33,5 +30,5 @@ function formatDifficultySummary(difficultyCount: DifficultyCount): string {
   return `하${level1} · 중하${level2} · 중${level3} · 상${level4} · 최상${level5}`;
 }
 
-export default WorksheetFooter;
+export default ProblemFooter;
 export type { DifficultyCount };

@@ -1,15 +1,15 @@
-import styles from "./CreateWorksheetPage.module.scss";
+import styles from "./CreateProblemsPage.module.scss";
 import EmptySimilarProblemPlaceholder from "./CreateProblemPage/EmptySimilarProblemPlaceholder";
 import EmptyBasicProblemPlaceholer from "./CreateProblemPage/EmptyBasicProblemPlaceholer";
 import ProblemList from "./CreateProblemPage/ProblemList";
-import WorksheetCard from "@/components/WorksheetCard";
-import WorksheetFooter, {
+import ProblemCard from "@/components/ProblemCard";
+import ProblemFooter, {
   type DifficultyCount,
-} from "./CreateProblemPage/WorksheetFooter";
+} from "./CreateProblemPage/ProblemFooter";
 import { useProblems } from "@/hooks/useProblems";
 import type { DifficultyLevel, Problem } from "@/types/problem";
 
-function CreateWorksheetPage() {
+function CreateProblemPage() {
   const { data, isLoading, error } = useProblems();
 
   if (isLoading) {
@@ -61,13 +61,13 @@ function BasicProblemsSection({
 
   return (
     <ProblemList type="basic">
-      <h2 className={styles.worksheet_title}>학습지 상세 편집</h2>
+      <h2 className={styles.problem_title}>학습지 상세 편집</h2>
       {hasProblems ? (
-        <WorksheetCardsArea problems={problems} />
+        <ProblemCardsArea problems={problems} />
       ) : (
         <EmptyBasicProblemPlaceholer />
       )}
-      <WorksheetFooter
+      <ProblemFooter
         difficultyCount={difficultyCount}
         totalProblems={totalProblems}
       />
@@ -75,15 +75,15 @@ function BasicProblemsSection({
   );
 }
 
-type WorksheetCardsAreaProps = {
+type ProblemCardsAreaProps = {
   problems: Problem[];
 };
 
-function WorksheetCardsArea({ problems }: WorksheetCardsAreaProps) {
+function ProblemCardsArea({ problems }: ProblemCardsAreaProps) {
   return (
-    <div className={styles.worksheet_list_wrap}>
+    <div className={styles.problem_list_wrap}>
       {problems.map((problem, index) => (
-        <WorksheetCard
+        <ProblemCard
           key={problem.id}
           index={index + 1}
           title={problem.title}
@@ -117,4 +117,4 @@ function calculateDifficultyCount(
   return count;
 }
 
-export default CreateWorksheetPage;
+export default CreateProblemPage;

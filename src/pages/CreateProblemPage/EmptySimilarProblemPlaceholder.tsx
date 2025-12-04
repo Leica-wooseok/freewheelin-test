@@ -1,9 +1,9 @@
-import styles from "../CreateWorksheetPage.module.scss";
+import styles from "../CreateProblemsPage.module.scss";
 import AddCircleIcon from "@/assets/images/add-circle.svg?react";
 
 function EmptySimilarProblemPlaceholder() {
   return (
-    <div className={styles.empty_worksheet_wrap}>
+    <div className={styles.empty_problem_wrap}>
       <p className={"typo_body2"}>
         <span className={styles.button_view}>
           <AddCircleIcon className={styles.button_view_icon} />

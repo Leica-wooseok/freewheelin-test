@@ -1,9 +1,9 @@
-import CreateWorksheetPage from "./pages/CreateProblemsPage";
+import CreateProblemPage from "./pages/CreateProblemsPage";
 
 function App() {
   return (
     <>
-      <CreateWorksheetPage />
+      <CreateProblemPage />
     </>
   );
 }

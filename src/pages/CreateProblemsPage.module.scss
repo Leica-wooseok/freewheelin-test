@@ -33,7 +33,7 @@
   flex: 1 1 504px;
   background-color: #e8e8e8;
 
-  & .empty_worksheet_wrap {
+  & .empty_problem_wrap {
     color: $gray-900;
   }
 }
@@ -43,12 +43,12 @@
   background: $gray-800;
   color: $color-white;
 
-  & .empty_worksheet_wrap {
+  & .empty_problem_wrap {
     color: $color-white;
   }
 }
 
-.empty_worksheet_wrap {
+.empty_problem_wrap {
   margin: auto;
   text-align: center;
   gap: 2px;
@@ -76,11 +76,11 @@
   }
 }
 
-.worksheet_title {
+.problem_title {
   @include typo-body1-bold;
 }
 
-.worksheet_list_wrap {
+.problem_list_wrap {
   flex: 1;
   margin-top: 16px;
   gap: 16px;
@@ -94,7 +94,7 @@
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
-.worksheet_list_footer {
+.problem_list_footer {
   margin-top: auto;
   height: 64px;
   padding-right: 8px;

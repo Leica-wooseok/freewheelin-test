@@ -1,4 +1,4 @@
-import styles from "./WorksheetCard.module.scss";
+import styles from "./ProblemCard.module.scss";
 import clsx from "clsx";
 import CardButton from "@/components/buttons/CardButton";
 import CardBadge from "../CardBadge";
@@ -43,11 +43,11 @@ function ProblemCard({
   level = DEFAULT_VALUES.LEVEL,
   answerRate = DEFAULT_VALUES.ANSWER_RATE,
   problemImageUrl,
-  problemType = DEFAULT_VALUES.PROBLEM_TYPE,
+  problemType = DEFAULT_VALUESproblem_TYPE,
   onSimilarClick,
   onDeleteClick,
 }: ProblemCardProps) {
-  const cardClassName = clsx(styles.worksheet_card, {
+  const cardClassName = clsx(styles.problem_card, {
     [styles.active]: isActive,
   });
 
@@ -165,7 +165,7 @@ function ProblemImageBox({ imageUrl }: ProblemImageBoxProps) {
   }
 
   return (
-    <div className={styles.card_worksheet_image_box}>
+    <div className={styles.card_problem_image_box}>
       <img src={imageUrl} alt={DEFAULT_VALUES.IMAGE_ALT} />
     </div>
   );

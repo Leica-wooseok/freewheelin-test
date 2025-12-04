@@ -1,4 +1,4 @@
-import styles from "../CreateWorksheetPage.module.scss";
+import styles from "../CreateProblemsPage.module.scss";
 
 interface ProblemListProps {
   type: "similar" | "basic";
