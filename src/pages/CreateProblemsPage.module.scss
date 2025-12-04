@@ -89,13 +89,12 @@
 
   /* 스크롤바 숨김 */
   &::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera*/
+    display: none;
   }
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 .problem_list_footer {
-  margin-top: auto;
   height: 64px;
   padding-right: 8px;
   display: flex;

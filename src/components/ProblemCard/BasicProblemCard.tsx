@@ -9,8 +9,8 @@ type BasicProblemCardProps = {
   problem: Problem;
   index: number;
   isActive?: boolean;
-  onSimilarClick?: () => void;
-  onDeleteClick?: () => void;
+  onSimilarClick: () => void;
+  onDeleteClick: () => void;
 };
 
 function BasicProblemCard({
@@ -20,8 +20,8 @@ function BasicProblemCard({
   onSimilarClick,
   onDeleteClick,
 }: BasicProblemCardProps) {
-  const handleSimilarClick = onSimilarClick ?? (() => {});
-  const handleDeleteClick = onDeleteClick ?? (() => {});
+  const handleSimilarClick = onSimilarClick;
+  const handleDeleteClick = onDeleteClick;
 
   return (
     <ProblemCardBase

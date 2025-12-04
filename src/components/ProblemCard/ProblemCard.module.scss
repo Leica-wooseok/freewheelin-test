@@ -26,6 +26,7 @@
     display: flex;
     align-items: center;
     gap: 32px;
+    word-break: keep-all;
   }
   .card_header_button_group {
     flex-shrink: 0;

@@ -1,9 +1,36 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { fetchProblems } from "@/api/problems";
 
 export function useProblems() {
   return useQuery({
     queryKey: ["problems"],
     queryFn: fetchProblems,
+  });
+}
+
+export function useDeleteProblem() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (deletedId: number) => {
+      // 클라이언트 사이드에서만 삭제 (서버 요청 없음)
+      console.log("Deleting problem (client-side only):", deletedId);
+      return Promise.resolve();
+    },
+    onMutate: async (deletedId) => {
+      // 진행 중인 쿼리 취소
+      await queryClient.cancelQueries({ queryKey: ["problems"] });
+
+      // 이전 데이터 백업
+      const previousProblems = queryClient.getQueryData(["problems"]);
+
+      // UI에서 즉시 제거
+      queryClient.setQueryData(["problems"], (old: any) => {
+        if (!Array.isArray(old)) return old;
+        return old.filter((p: any) => p.id !== deletedId);
+      });
+
+      return { previousProblems };
+    },
   });
 }
