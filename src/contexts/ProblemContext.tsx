@@ -62,30 +62,16 @@ export function ProblemProvider({ children }: ProblemProviderProps) {
   const replaceProblemWithActive = (problem: Problem) => {
     if (activeProblemId === null) return;
 
-    const activeProblem = problems.find((p) => p.id === activeProblemId);
-    if (!activeProblem) return;
-
-    const currentSimilarProblems = queryClient.getQueryData<Problem[]>([
-      "problems",
-      "similar",
-      activeProblemId,
-    ]);
-    if (!currentSimilarProblems) return;
-
-    queryClient.setQueryData<Problem[]>(["problems"], (oldProblems = []) =>
-      oldProblems.map((p) => (p.id === activeProblemId ? problem : p))
+    // 기본 문제 목록에서 교체 (훅에서 similarProblems 교체도 처리)
+    // onSuccess 콜백에서 activeProblemId 변경 (onMutate 완료 후 실행되어 refetch 방지)
+    replaceProblem(
+      { targetProblemId: activeProblemId, newProblem: problem },
+      {
+        onSuccess: () => {
+          setActiveProblemId(problem.id);
+        },
+      }
     );
-
-    const newSimilarProblems = currentSimilarProblems.map((p) =>
-      p.id === problem.id ? activeProblem : p
-    );
-
-    queryClient.setQueryData(
-      ["problems", "similar", problem.id],
-      newSimilarProblems
-    );
-
-    setActiveProblemId(problem.id);
   };
 
   const value: ProblemContextType = {

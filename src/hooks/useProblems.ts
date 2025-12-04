@@ -16,6 +16,7 @@ export function useSimilarProblems(
     queryKey: ["problems", "similar", problemId],
     queryFn: () => fetchSimilarProblems(problemId!, excludedProblemIds),
     enabled: problemId !== null,
+    staleTime: Infinity,
   });
 }
 
@@ -120,11 +121,25 @@ export function useReplaceProblem() {
     onMutate: async ({ targetProblemId, newProblem }) => {
       // 진행 중인 쿼리 취소
       await queryClient.cancelQueries({ queryKey: ["problems"] });
+      await queryClient.cancelQueries({
+        queryKey: ["problems", "similar", targetProblemId],
+      });
 
       // 이전 데이터 백업
       const previousProblems = queryClient.getQueryData(["problems"]);
+      const previousSimilarProblems = queryClient.getQueryData([
+        "problems",
+        "similar",
+        targetProblemId,
+      ]);
 
-      // UI에서 즉시 교체
+      // problems에서 교체될 기존 문제 찾기
+      const problems = previousProblems as any[];
+      const targetProblem = problems?.find(
+        (p: any) => p.id === targetProblemId
+      );
+
+      // UI에서 즉시 교체 (problems)
       queryClient.setQueryData(["problems"], (old: any) => {
         if (!Array.isArray(old)) return old;
 
@@ -136,7 +151,20 @@ export function useReplaceProblem() {
         return newProblems;
       });
 
-      return { previousProblems };
+      // similarProblems에서 교체 (newProblem → targetProblem, length 유지)
+      if (targetProblem && Array.isArray(previousSimilarProblems)) {
+        const updatedSimilarProblems = previousSimilarProblems.map((p: any) =>
+          p.id === newProblem.id ? targetProblem : p
+        );
+
+        // 새 active problem의 queryKey에 설정 (refetch 방지)
+        queryClient.setQueryData(
+          ["problems", "similar", newProblem.id],
+          updatedSimilarProblems
+        );
+      }
+
+      return { previousProblems, previousSimilarProblems };
     },
   });
 }
