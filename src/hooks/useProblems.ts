@@ -8,15 +8,18 @@ export function useProblems() {
   });
 }
 
-export function useSimilarProblems(problemId: number | null, excludedProblemIds: number[]) {
+export function useSimilarProblems(
+  problemId: number | null,
+  excludedProblemIds: number[]
+) {
   return useQuery({
-    queryKey: ["problems", "similar", problemId, excludedProblemIds],
+    queryKey: ["problems", "similar", problemId],
     queryFn: () => fetchSimilarProblems(problemId!, excludedProblemIds),
     enabled: problemId !== null,
   });
 }
 
-export function useDeleteProblem() {
+export function useDeleteProblem(activeProblemId: number | null) {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -39,6 +42,12 @@ export function useDeleteProblem() {
       });
 
       return { previousProblems };
+    },
+    onSuccess: (_data, deletedId) => {
+      // 삭제된 문제가 현재 active된 문제인 경우에만 유사 문제 쿼리 무효화
+      if (deletedId === activeProblemId) {
+        queryClient.invalidateQueries({ queryKey: ["problems", "similar"] });
+      }
     },
   });
 }

@@ -3,7 +3,8 @@ import BasicProblemCard from "@/components/ProblemCard/BasicProblemCard";
 import { useProblemContext } from "@/contexts/ProblemContext";
 
 function ProblemCardsArea() {
-  const { problems, activeProblemId, setActiveProblemId, deleteProblem } = useProblemContext();
+  const { problems, activeProblemId, setActiveProblemId, deleteProblem } =
+    useProblemContext();
 
   const handleSimilarClick = (problemId: number) => {
     setActiveProblemId(problemId);
@@ -11,6 +12,8 @@ function ProblemCardsArea() {
 
   const handleDeleteClick = (problemId: number) => {
     deleteProblem(problemId);
+
+    if (problemId === activeProblemId) setActiveProblemId(null);
   };
 
   return (

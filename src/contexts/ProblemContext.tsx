@@ -26,7 +26,7 @@ export function ProblemProvider({ children }: ProblemProviderProps) {
   const excludedIds = problems.map((p) => p.id);
 
   const { data: similarProblems } = useSimilarProblems(activeProblemId, excludedIds);
-  const { mutate: deleteProblem } = useDeleteProblem();
+  const { mutate: deleteProblem } = useDeleteProblem(activeProblemId);
 
   const value: ProblemContextType = {
     problems,
