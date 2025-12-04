@@ -1,5 +1,6 @@
+import { useState } from "react";
 import styles from "../CreateProblemsPage.module.scss";
-import ProblemCard from "@/components/ProblemCard";
+import BasicProblemCard from "@/components/ProblemCard/BasicProblemCard";
 import type { Problem } from "@/types/problem";
 
 type ProblemCardsAreaProps = {
@@ -7,10 +8,16 @@ type ProblemCardsAreaProps = {
 };
 
 function ProblemCardsArea({ problems }: ProblemCardsAreaProps) {
+  const [activeProblemId, setActiveProblemId] = useState<number | null>(null);
+
+  const handleSimilarClick = (problemId: number) => {
+    setActiveProblemId(problemId);
+  };
+
   return (
     <div className={styles.problem_list_wrap}>
       {problems.map((problem, index) => (
-        <ProblemCard
+        <BasicProblemCard
           key={problem.id}
           index={index + 1}
           title={problem.title}
@@ -18,7 +25,8 @@ function ProblemCardsArea({ problems }: ProblemCardsAreaProps) {
           answerRate={problem.answerRate}
           problemImageUrl={problem.problemImageUrl}
           problemType={problem.type}
-          isActive={index === 0}
+          isActive={problem.id === activeProblemId}
+          onSimilarClick={() => handleSimilarClick(problem.id)}
         />
       ))}
     </div>

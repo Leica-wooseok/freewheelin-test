@@ -1,5 +1,6 @@
 import styles from "../CreateProblemsPage.module.scss";
 import AddCircleIcon from "@/assets/images/add-circle.svg?react";
+import SimilarProblemsSection from "./SimilarProblemsSection";
 
 function EmptySimilarProblemPlaceholder() {
   return (

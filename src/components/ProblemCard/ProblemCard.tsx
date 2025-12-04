@@ -4,7 +4,7 @@ import CardButton from "@/components/buttons/CardButton";
 import CardBadge from "../CardBadge";
 import DifficultyBadge from "../DifficultyBadge";
 import AddCircleIcon from "@/assets/images/add-circle.svg?react";
-import DeleteIcon from "@/assets/images/delete.svg?react";
+import DeleteIcon from "@/assets/images/delete.svg";
 import { colorsHex } from "@/styles/colors";
 
 type ProblemType = 1 | 2;
@@ -50,6 +50,7 @@ function ProblemCard({
       <CardHeader
         index={index}
         title={title}
+        isActive={isActive}
         onSimilarClick={handleSimilarClick}
         onDeleteClick={handleDeleteClick}
       />
@@ -64,8 +65,9 @@ function ProblemCard({
 }
 
 type CardHeaderProps = {
-  index: number | string;
+  index: number;
   title: string;
+  isActive: boolean;
   onSimilarClick: () => void;
   onDeleteClick: () => void;
 };
@@ -73,6 +75,7 @@ type CardHeaderProps = {
 function CardHeader({
   index,
   title,
+  isActive,
   onSimilarClick,
   onDeleteClick,
 }: CardHeaderProps) {
@@ -85,6 +88,7 @@ function CardHeader({
       <div className={styles.card_header_button_group}>
         <CardButton
           icon={<AddCircleIcon />}
+          active={isActive}
           label="유사문제"
           onClick={onSimilarClick}
         />
