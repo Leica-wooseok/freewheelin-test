@@ -1,4 +1,5 @@
 import styles from "../CreateProblemsPage.module.scss";
+import clsx from "clsx";
 
 type DifficultyCount = {
   level1: number;
@@ -18,9 +19,19 @@ function ProblemFooter({ difficultyCount, totalProblems }: ProblemFooterProps) {
 
   return (
     <div className={styles.problem_list_footer}>
-      <p>{difficultySummary}</p>
-      <div>|</div>
-      <p className={styles.total}>문제 수 {totalProblems} 개</p>
+      {totalProblems !== 0 && (
+        <>
+          <p>{difficultySummary}</p>
+          <div>|</div>
+        </>
+      )}
+      <p
+        className={clsx(styles.total, {
+          [styles.no_problem]: totalProblems === 0,
+        })}
+      >
+        문제 수 {totalProblems} 개
+      </p>
     </div>
   );
 }

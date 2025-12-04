@@ -108,5 +108,9 @@
   & .total {
     color: $color-white;
     @include typo-body1-bold;
+
+    &.no_problem {
+      color: $color-error;
+    }
   }
 }

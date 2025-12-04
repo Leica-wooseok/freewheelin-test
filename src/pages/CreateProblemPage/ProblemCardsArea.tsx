@@ -19,12 +19,8 @@ function ProblemCardsArea({ problems }: ProblemCardsAreaProps) {
       {problems.map((problem, index) => (
         <BasicProblemCard
           key={problem.id}
+          problem={problem}
           index={index + 1}
-          title={problem.title}
-          level={problem.level}
-          answerRate={problem.answerRate}
-          problemImageUrl={problem.problemImageUrl}
-          problemType={problem.type}
           isActive={problem.id === activeProblemId}
           onSimilarClick={() => handleSimilarClick(problem.id)}
         />

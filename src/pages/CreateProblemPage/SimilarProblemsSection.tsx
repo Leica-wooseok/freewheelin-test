@@ -29,12 +29,8 @@ function SimilarProblemsSection({ problems = [] }: SimilarProblemsSectionProps) 
           {problems.map((problem, index) => (
             <SimilarProblemCard
               key={problem.id}
+              problem={problem}
               index={index + 1}
-              title={problem.title}
-              level={problem.level}
-              answerRate={problem.answerRate}
-              problemImageUrl={problem.problemImageUrl}
-              problemType={problem.type}
               isActive={problem.id === activeProblemId}
               onChangeClick={() => handleChangeClick(problem.id)}
               onAddClick={() => handleAddClick(problem.id)}

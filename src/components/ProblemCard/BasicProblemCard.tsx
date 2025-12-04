@@ -3,28 +3,20 @@ import CardButton from "@/components/buttons/CardButton";
 import AddCircleIcon from "@/assets/images/add-circle.svg?react";
 import DeleteIcon from "@/assets/images/delete.svg?react";
 import { ProblemCardBase, CardTitleGroup, CardBody } from "./ProblemCardBase";
-import type { DifficultyLevel, ProblemType } from "@/types/problem";
+import type { Problem } from "@/types/problem";
 
 type BasicProblemCardProps = {
+  problem: Problem;
   index: number;
-  title: string;
   isActive?: boolean;
-  level: DifficultyLevel;
-  answerRate: number;
-  problemImageUrl: string;
-  problemType: ProblemType;
   onSimilarClick?: () => void;
   onDeleteClick?: () => void;
 };
 
 function BasicProblemCard({
+  problem,
   index,
-  title,
   isActive = false,
-  level,
-  answerRate,
-  problemImageUrl,
-  problemType,
   onSimilarClick,
   onDeleteClick,
 }: BasicProblemCardProps) {
@@ -36,15 +28,15 @@ function BasicProblemCard({
       isActive={isActive}
       cardBody={
         <CardBody
-          level={level}
-          answerRate={answerRate}
-          problemImageUrl={problemImageUrl}
-          problemType={problemType}
+          level={problem.level}
+          answerRate={problem.answerRate}
+          problemImageUrl={problem.problemImageUrl}
+          problemType={problem.type}
         />
       }
     >
       <div className={styles.card_header}>
-        <CardTitleGroup index={index} title={title} />
+        <CardTitleGroup index={index} title={problem.title} />
         <div className={styles.card_header_button_group}>
           <CardButton
             icon={<AddCircleIcon />}

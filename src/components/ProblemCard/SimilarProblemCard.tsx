@@ -3,28 +3,20 @@ import CardButton from "@/components/buttons/CardButton";
 import ChangeIcon from "@/assets/images/swap-horiz.svg?react";
 import AddCircleIcon from "@/assets/images/add-circle.svg?react";
 import { ProblemCardBase, CardTitleGroup, CardBody } from "./ProblemCardBase";
-import type { DifficultyLevel, ProblemType } from "@/types/problem";
+import type { Problem } from "@/types/problem";
 
 type SimilarProblemCardProps = {
+  problem: Problem;
   index: number;
-  title: string;
   isActive?: boolean;
-  level: DifficultyLevel;
-  answerRate: number;
-  problemImageUrl: string;
-  problemType: ProblemType;
   onChangeClick?: () => void;
   onAddClick?: () => void;
 };
 
 function SimilarProblemCard({
+  problem,
   index,
-  title,
   isActive = false,
-  level,
-  answerRate,
-  problemImageUrl,
-  problemType,
   onChangeClick,
   onAddClick,
 }: SimilarProblemCardProps) {
@@ -36,15 +28,15 @@ function SimilarProblemCard({
       isActive={isActive}
       cardBody={
         <CardBody
-          level={level}
-          answerRate={answerRate}
-          problemImageUrl={problemImageUrl}
-          problemType={problemType}
+          level={problem.level}
+          answerRate={problem.answerRate}
+          problemImageUrl={problem.problemImageUrl}
+          problemType={problem.type}
         />
       }
     >
       <div className={styles.card_header}>
-        <CardTitleGroup index={index} title={title} />
+        <CardTitleGroup index={index} title={problem.title} />
         <div className={styles.card_header_button_group}>
           <CardButton
             icon={<ChangeIcon />}
