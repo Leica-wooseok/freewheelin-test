@@ -1,0 +1,58 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
+.worksheet_card {
+  border-radius: 12px;
+  color: $gray-900;
+  background: $color-white;
+  box-shadow: $elevation-02;
+  overflow: hidden;
+
+  &.active {
+    border: 3px solid #00abff;
+  }
+
+  .card_header {
+    height: 52px;
+    background: $gray-100;
+    padding-left: 28px;
+    padding-right: 16px;
+    display: flex;
+    align-items: center;
+    color: $gray-900;
+    justify-content: space-between;
+  }
+  .card_header_title_group {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+  .card_header_button_group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .card_index {
+    @include typo-h4;
+  }
+
+  .card_body {
+    padding: 16px 16px 31px 16px;
+    display: flex;
+    gap: 15px;
+  }
+  .card_body_badge_group {
+    gap: 4px;
+    @include flex-column;
+  }
+  .card_worksheet_image_box {
+    width: 100%;
+    background-color: red;
+
+    & img {
+      object-fit: contain;
+      max-width: 100%;
+      max-height: 100%;
+    }
+  }
+}
