@@ -1,4 +1,3 @@
-import { useState } from "react";
 import styles from "../CreateProblemsPage.module.scss";
 import ProblemList from "./ProblemList";
 import EmptySimilarProblemPlaceholder from "./EmptySimilarProblemPlaceholder";
@@ -6,16 +5,23 @@ import SimilarProblemCard from "@/components/ProblemCard/SimilarProblemCard";
 import { useProblemContext } from "@/contexts/ProblemContext";
 
 function SimilarProblemsSection() {
-  const { similarProblems } = useProblemContext();
-  const [activeProblemId, setActiveProblemId] = useState<number | null>(null);
+  const { similarProblems, addProblemAfterActive, replaceProblemWithActive } =
+    useProblemContext();
 
   const handleChangeClick = (problemId: number) => {
-    setActiveProblemId(problemId);
-    // TODO: 교체 로직 구현
+    const problem = similarProblems?.find((p) => p.id === problemId);
+    if (!problem) return;
+
+    // 유사문제 리스트의 해당 문제와 active 된 문제 교환
+    replaceProblemWithActive(problem);
   };
 
-  const handleAddClick = (_problemId: number) => {
-    // TODO: 추가 로직 구현
+  const handleAddClick = (problemId: number) => {
+    const problem = similarProblems?.find((p) => p.id === problemId);
+    if (!problem) return;
+
+    // 현재 문제를 Active 된 문제 바로 뒤에 추가하고 SimilarProblems 리스트에서 제거
+    addProblemAfterActive(problem);
   };
 
   const problems = similarProblems || [];

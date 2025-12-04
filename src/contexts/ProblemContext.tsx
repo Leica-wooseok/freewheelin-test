@@ -1,6 +1,13 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
-import { useProblems, useSimilarProblems, useDeleteProblem } from "@/hooks/useProblems";
+import {
+  useProblems,
+  useSimilarProblems,
+  useDeleteProblem,
+  useAddProblem,
+  useReplaceProblem,
+} from "@/hooks/useProblems";
 import type { Problem } from "@/types/problem";
+import { useQueryClient } from "@tanstack/react-query";
 
 type ProblemContextType = {
   problems: Problem[];
@@ -10,6 +17,8 @@ type ProblemContextType = {
   error: Error | null;
   setActiveProblemId: (id: number | null) => void;
   deleteProblem: (id: number) => void;
+  addProblemAfterActive: (problem: Problem) => void;
+  replaceProblemWithActive: (problem: Problem) => void;
 };
 
 const ProblemContext = createContext<ProblemContextType | undefined>(undefined);
@@ -21,12 +30,67 @@ type ProblemProviderProps = {
 export function ProblemProvider({ children }: ProblemProviderProps) {
   const { data, isLoading, error } = useProblems();
   const [activeProblemId, setActiveProblemId] = useState<number | null>(null);
+  const queryClient = useQueryClient();
 
   const problems = data || [];
   const excludedIds = problems.map((p) => p.id);
 
-  const { data: similarProblems } = useSimilarProblems(activeProblemId, excludedIds);
+  const { data: similarProblems } = useSimilarProblems(
+    activeProblemId,
+    excludedIds
+  );
   const { mutate: deleteProblem } = useDeleteProblem(activeProblemId);
+  const { mutate: addProblem } = useAddProblem();
+  const { mutate: replaceProblem } = useReplaceProblem();
+
+  const addProblemAfterActive = (problem: Problem) => {
+    if (activeProblemId === null) return;
+
+    // 기본 문제 목록에 추가
+    addProblem({ problem, afterProblemId: activeProblemId });
+
+    // 유사 문제 목록에서 제거
+    queryClient.setQueryData(
+      ["problems", "similar", activeProblemId],
+      (old: any) => {
+        if (!Array.isArray(old)) return old;
+        return old.filter((p: Problem) => p.id !== problem.id);
+      }
+    );
+  };
+
+  const replaceProblemWithActive = (problem: Problem) => {
+    if (activeProblemId === null) return;
+
+    const activeProblem = problems.find((p) => p.id === activeProblemId);
+    if (!activeProblem) return;
+
+    const currentSimilarProblems = queryClient.getQueryData<Problem[]>([
+      "problems",
+      "similar",
+      activeProblemId,
+    ]);
+    if (!currentSimilarProblems) return;
+
+    // 1. Update main problems list: replace active problem with the one from similar list
+    queryClient.setQueryData<Problem[]>(["problems"], (oldProblems = []) =>
+      oldProblems.map((p) => (p.id === activeProblemId ? problem : p))
+    );
+
+    // 2. Prepare the new similar problems list for the new active problem
+    const newSimilarProblems = currentSimilarProblems.map((p) =>
+      p.id === problem.id ? activeProblem : p
+    );
+
+    // 3. Put this new list into the cache for the new active problem ID
+    queryClient.setQueryData(
+      ["problems", "similar", problem.id],
+      newSimilarProblems
+    );
+
+    // 4. Set the new active problem id
+    setActiveProblemId(problem.id);
+  };
 
   const value: ProblemContextType = {
     problems,
@@ -36,9 +100,13 @@ export function ProblemProvider({ children }: ProblemProviderProps) {
     error,
     setActiveProblemId,
     deleteProblem,
+    addProblemAfterActive,
+    replaceProblemWithActive,
   };
 
-  return <ProblemContext.Provider value={value}>{children}</ProblemContext.Provider>;
+  return (
+    <ProblemContext.Provider value={value}>{children}</ProblemContext.Provider>
+  );
 }
 
 export function useProblemContext() {
