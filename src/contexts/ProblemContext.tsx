@@ -72,23 +72,19 @@ export function ProblemProvider({ children }: ProblemProviderProps) {
     ]);
     if (!currentSimilarProblems) return;
 
-    // 1. Update main problems list: replace active problem with the one from similar list
     queryClient.setQueryData<Problem[]>(["problems"], (oldProblems = []) =>
       oldProblems.map((p) => (p.id === activeProblemId ? problem : p))
     );
 
-    // 2. Prepare the new similar problems list for the new active problem
     const newSimilarProblems = currentSimilarProblems.map((p) =>
       p.id === problem.id ? activeProblem : p
     );
 
-    // 3. Put this new list into the cache for the new active problem ID
     queryClient.setQueryData(
       ["problems", "similar", problem.id],
       newSimilarProblems
     );
 
-    // 4. Set the new active problem id
     setActiveProblemId(problem.id);
   };
 

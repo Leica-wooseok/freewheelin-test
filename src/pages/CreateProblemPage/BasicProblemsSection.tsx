@@ -4,18 +4,32 @@ import EmptyBasicProblemPlaceholer from "./EmptyBasicProblemPlaceholer";
 import ProblemFooter, { type DifficultyCount } from "./ProblemFooter";
 import ProblemCardsArea from "./ProblemCardsArea";
 import { useProblemContext } from "@/contexts/ProblemContext";
+import type { DifficultyLevel, Problem } from "@/types/problem";
 
-type BasicProblemsSectionProps = {
-  difficultyCount: DifficultyCount;
-  totalProblems: number;
-};
+function calculateDifficultyCount(
+  problems: Array<{ level: DifficultyLevel }>
+): DifficultyCount {
+  const count: DifficultyCount = {
+    level1: 0,
+    level2: 0,
+    level3: 0,
+    level4: 0,
+    level5: 0,
+  };
 
-function BasicProblemsSection({
-  difficultyCount,
-  totalProblems,
-}: BasicProblemsSectionProps) {
+  problems.forEach((problem) => {
+    const key = `level${problem.level}` as keyof DifficultyCount;
+    count[key]++;
+  });
+
+  return count;
+}
+
+function BasicProblemsSection() {
   const { problems } = useProblemContext();
   const hasProblems = problems.length > 0;
+  const difficultyCount = calculateDifficultyCount(problems);
+  const totalProblems = problems.length;
 
   return (
     <ProblemList type="basic">
