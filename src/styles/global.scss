@@ -117,8 +117,11 @@ code {
 .typo-h4 {
   @include typo-h4;
 }
-.typo_body1 {
-  @include typo-body1;
+.typo_body1_bold {
+  @include typo-body1-bold;
+}
+.typo_body1_regular {
+  @include typo-body1-regular;
 }
 .typo_body2 {
   @include typo-body2;

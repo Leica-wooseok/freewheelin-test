@@ -77,7 +77,7 @@
 }
 
 .worksheet_title {
-  @include typo-body1;
+  @include typo-body1-bold;
 }
 
 .worksheet_list_wrap {
@@ -86,4 +86,20 @@
   gap: 16px;
   overflow-y: auto;
   @include flex-column;
+}
+.worksheet_list_footer {
+  margin-top: auto;
+  height: 64px;
+  padding-right: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  color: $gray-500;
+  @include typo-body1-regular;
+
+  & .total {
+    color: $color-white;
+    @include typo-body1-bold;
+  }
 }
