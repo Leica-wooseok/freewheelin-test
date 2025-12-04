@@ -1,7 +1,9 @@
 // Colors
 
 $color-white: #fff;
+$gray-100: #fafafa;
 $gray-400: #e0e0e0;
+$gray-600: #959595;
 $gray-800: #5c5c5c;
 $gray-900: #333333;
 
@@ -10,3 +12,6 @@ $breakpoint-tablet: 1280px;
 
 $max-container-width: 1280px;
 $min-container-width: 1024px;
+
+$elevation-02: 0px 2px 6px 0px rgba(0, 0, 0, 0.08),
+  0px 1px 0px 0px rgba(00, 00, 00, 0.04);

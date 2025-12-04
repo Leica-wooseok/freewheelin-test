@@ -96,7 +96,15 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-
+.typo-h4 {
+  @include typo-h4;
+}
+.typo_body1 {
+  @include typo-body1;
+}
 .typo_body2 {
   @include typo-body2;
+}
+.typo-caption1 {
+  @include typo-caption1;
 }

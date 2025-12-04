@@ -41,6 +41,7 @@
   padding-bottom: 0;
   flex: 1 1 712px;
   background: $gray-800;
+  color: $color-white;
 
   & .empty_worksheet_wrap {
     color: $color-white;
@@ -72,5 +73,53 @@
   .button_view_icon {
     width: 10px;
     height: 10px;
+  }
+}
+
+.worksheet_title {
+  @include typo-body1;
+}
+
+.worksheet_list_wrap {
+  flex: 1;
+  margin-top: 16px;
+  gap: 16px;
+  overflow-y: auto;
+  @include flex-column;
+}
+
+.worksheet_card {
+  border-radius: 12px;
+  color: $gray-900;
+  background: $color-white;
+  box-shadow: $elevation-02;
+  overflow: hidden;
+
+  &.active {
+    border: 3px solid #00abff;
+  }
+
+  .card_header {
+    height: 52px;
+    background: $gray-100;
+    padding-left: 28px;
+    padding-right: 16px;
+    display: flex;
+    align-items: center;
+    color: $gray-900;
+    justify-content: space-between;
+  }
+  .card_header_title_group {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+  .card_header_button_group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .card_index {
+    @include typo-h4;
   }
 }

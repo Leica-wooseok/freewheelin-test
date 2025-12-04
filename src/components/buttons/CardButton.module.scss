@@ -1,0 +1,32 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
+.card_button_root {
+  padding: 0;
+  background: transparent;
+  border: 0;
+  color: $gray-600;
+  gap: 4px;
+  @include typo-caption1;
+  @include flex-center;
+
+  & svg {
+    width: 16px;
+    height: 16px;
+    color: #c0c0c0;
+    opacity: 0.87;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &.active {
+    color: #00abff;
+
+    svg {
+      color: #00abff;
+      opacity: 1;
+    }
+  }
+}
