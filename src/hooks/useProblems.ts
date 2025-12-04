@@ -1,10 +1,18 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { fetchProblems } from "@/api/problems";
+import { fetchProblems, fetchSimilarProblems } from "@/api/problems";
 
 export function useProblems() {
   return useQuery({
     queryKey: ["problems"],
     queryFn: fetchProblems,
+  });
+}
+
+export function useSimilarProblems(problemId: number | null, excludedProblemIds: number[]) {
+  return useQuery({
+    queryKey: ["problems", "similar", problemId, excludedProblemIds],
+    queryFn: () => fetchSimilarProblems(problemId!, excludedProblemIds),
+    enabled: problemId !== null,
   });
 }
 

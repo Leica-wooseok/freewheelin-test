@@ -33,7 +33,8 @@
   flex: 1 1 504px;
   background-color: #e8e8e8;
 
-  & .empty_problem_wrap {
+  & .empty_problem_wrap,
+  & .problem_title {
     color: $gray-900;
   }
 }

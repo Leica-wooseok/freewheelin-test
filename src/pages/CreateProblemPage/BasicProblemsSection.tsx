@@ -9,12 +9,16 @@ type BasicProblemsSectionProps = {
   difficultyCount: DifficultyCount;
   totalProblems: number;
   problems: Problem[];
+  activeProblemId: number | null;
+  onSimilarClick: (problemId: number) => void;
 };
 
 function BasicProblemsSection({
   difficultyCount,
   totalProblems,
   problems,
+  activeProblemId,
+  onSimilarClick,
 }: BasicProblemsSectionProps) {
   const hasProblems = problems.length > 0;
 
@@ -22,7 +26,11 @@ function BasicProblemsSection({
     <ProblemList type="basic">
       <h2 className={styles.problem_title}>학습지 상세 편집</h2>
       {hasProblems ? (
-        <ProblemCardsArea problems={problems} />
+        <ProblemCardsArea
+          problems={problems}
+          activeProblemId={activeProblemId}
+          onSimilarClick={onSimilarClick}
+        />
       ) : (
         <EmptyBasicProblemPlaceholer />
       )}

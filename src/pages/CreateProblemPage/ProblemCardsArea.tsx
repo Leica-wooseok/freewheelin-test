@@ -1,4 +1,3 @@
-import { useState } from "react";
 import styles from "../CreateProblemsPage.module.scss";
 import BasicProblemCard from "@/components/ProblemCard/BasicProblemCard";
 import type { Problem } from "@/types/problem";
@@ -6,15 +5,12 @@ import { useDeleteProblem } from "@/hooks/useProblems";
 
 type ProblemCardsAreaProps = {
   problems: Problem[];
+  activeProblemId: number | null;
+  onSimilarClick: (problemId: number) => void;
 };
 
-function ProblemCardsArea({ problems }: ProblemCardsAreaProps) {
-  const [activeProblemId, setActiveProblemId] = useState<number | null>(null);
+function ProblemCardsArea({ problems, activeProblemId, onSimilarClick }: ProblemCardsAreaProps) {
   const { mutate: deleteProblem } = useDeleteProblem();
-
-  const handleSimilarClick = (problemId: number) => {
-    setActiveProblemId(problemId);
-  };
 
   const handleDeleteClick = (problemId: number) => {
     deleteProblem(problemId);
@@ -28,7 +24,7 @@ function ProblemCardsArea({ problems }: ProblemCardsAreaProps) {
           problem={problem}
           index={index + 1}
           isActive={problem.id === activeProblemId}
-          onSimilarClick={() => handleSimilarClick(problem.id)}
+          onSimilarClick={() => onSimilarClick(problem.id)}
           onDeleteClick={() => handleDeleteClick(problem.id)}
         />
       ))}

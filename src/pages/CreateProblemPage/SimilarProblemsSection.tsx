@@ -1,4 +1,5 @@
 import { useState } from "react";
+import styles from "../CreateProblemsPage.module.scss";
 import ProblemList from "./ProblemList";
 import EmptySimilarProblemPlaceholder from "./EmptySimilarProblemPlaceholder";
 import SimilarProblemCard from "@/components/ProblemCard/SimilarProblemCard";
@@ -8,7 +9,9 @@ type SimilarProblemsSectionProps = {
   problems?: Problem[];
 };
 
-function SimilarProblemsSection({ problems = [] }: SimilarProblemsSectionProps) {
+function SimilarProblemsSection({
+  problems = [],
+}: SimilarProblemsSectionProps) {
   const [activeProblemId, setActiveProblemId] = useState<number | null>(null);
 
   const handleChangeClick = (problemId: number) => {
@@ -25,18 +28,21 @@ function SimilarProblemsSection({ problems = [] }: SimilarProblemsSectionProps) 
   return (
     <ProblemList type="similar">
       {hasProblems ? (
-        <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-          {problems.map((problem, index) => (
-            <SimilarProblemCard
-              key={problem.id}
-              problem={problem}
-              index={index + 1}
-              isActive={problem.id === activeProblemId}
-              onChangeClick={() => handleChangeClick(problem.id)}
-              onAddClick={() => handleAddClick(problem.id)}
-            />
-          ))}
-        </div>
+        <>
+          <h2 className={styles.problem_title}>유사 문항</h2>
+          <div className={styles.problem_list_wrap}>
+            {problems.map((problem, index) => (
+              <SimilarProblemCard
+                key={problem.id}
+                problem={problem}
+                index={index + 1}
+                isActive={problem.id === activeProblemId}
+                onChangeClick={() => handleChangeClick(problem.id)}
+                onAddClick={() => handleAddClick(problem.id)}
+              />
+            ))}
+          </div>
+        </>
       ) : (
         <EmptySimilarProblemPlaceholder />
       )}
