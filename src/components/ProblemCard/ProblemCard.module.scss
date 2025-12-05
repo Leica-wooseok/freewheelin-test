@@ -10,7 +10,7 @@
   flex-shrink: 0;
 
   &.active {
-    border: 3px solid #00abff;
+    border: 3px solid $color-primary;
   }
 
   .card_header {

@@ -22,10 +22,10 @@
   }
 
   &.active {
-    color: #00abff;
+    color: $color-primary;
 
     svg {
-      color: #00abff;
+      color: $color-primary;
       opacity: 1;
     }
   }
