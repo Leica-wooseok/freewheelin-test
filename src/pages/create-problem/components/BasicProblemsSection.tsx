@@ -4,7 +4,7 @@ import EmptyBasicProblemPlaceholer from "./EmptyBasicProblemPlaceholer";
 import ProblemFooter, { type DifficultyCount } from "./ProblemFooter";
 import ProblemCardsArea from "./ProblemCardsArea";
 import { useProblemContext } from "@/contexts/ProblemContext";
-import type { DifficultyLevel, Problem } from "@/types/problem";
+import type { DifficultyLevel } from "@/types/problem";
 
 function calculateDifficultyCount(
   problems: Array<{ level: DifficultyLevel }>

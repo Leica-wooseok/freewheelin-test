@@ -50,11 +50,11 @@ export function ProblemProvider({ children }: ProblemProviderProps) {
     addProblem({ problem, afterProblemId: activeProblemId });
 
     // 유사 문제 목록에서 제거
-    queryClient.setQueryData(
+    queryClient.setQueryData<Problem[] | undefined>(
       ["problems", "similar", activeProblemId],
-      (old: any) => {
-        if (!Array.isArray(old)) return old;
-        return old.filter((p: Problem) => p.id !== problem.id);
+      (oldData) => {
+        if (!Array.isArray(oldData)) return oldData;
+        return oldData.filter((p: Problem) => p.id !== problem.id);
       }
     );
   };

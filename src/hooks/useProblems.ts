@@ -1,8 +1,9 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { fetchProblems, fetchSimilarProblems } from "@/api/problems";
+import type { Problem, ProblemsResponse } from "@/types/problem";
 
 export function useProblems() {
-  return useQuery({
+  return useQuery<ProblemsResponse, Error>({
     queryKey: ["problems"],
     queryFn: fetchProblems,
   });
@@ -12,7 +13,7 @@ export function useSimilarProblems(
   problemId: number | null,
   excludedProblemIds: number[]
 ) {
-  return useQuery({
+  return useQuery<ProblemsResponse, Error>({
     queryKey: ["problems", "similar", problemId],
     queryFn: () => fetchSimilarProblems(problemId!, excludedProblemIds),
     enabled: problemId !== null,
@@ -34,13 +35,18 @@ export function useDeleteProblem(activeProblemId: number | null) {
       await queryClient.cancelQueries({ queryKey: ["problems"] });
 
       // 이전 데이터 백업
-      const previousProblems = queryClient.getQueryData(["problems"]);
+      const previousProblems = queryClient.getQueryData<Problem[]>([
+        "problems",
+      ]);
 
       // UI에서 즉시 제거
-      queryClient.setQueryData(["problems"], (old: any) => {
-        if (!Array.isArray(old)) return old;
-        return old.filter((p: any) => p.id !== deletedId);
-      });
+      queryClient.setQueryData<Problem[] | undefined>(
+        ["problems"],
+        (oldData) => {
+          if (!oldData) return [];
+          return oldData.filter((p) => p.id !== deletedId);
+        }
+      );
 
       return { previousProblems };
     },
@@ -54,7 +60,7 @@ export function useDeleteProblem(activeProblemId: number | null) {
 }
 
 type AddProblemParams = {
-  problem: any;
+  problem: Problem;
   afterProblemId: number;
 };
 
@@ -77,19 +83,26 @@ export function useAddProblem() {
       await queryClient.cancelQueries({ queryKey: ["problems"] });
 
       // 이전 데이터 백업
-      const previousProblems = queryClient.getQueryData(["problems"]);
+      const previousProblems = queryClient.getQueryData<Problem[]>([
+        "problems",
+      ]);
 
       // UI에서 즉시 추가 (afterProblemId 바로 뒤에 삽입)
-      queryClient.setQueryData(["problems"], (old: any) => {
-        if (!Array.isArray(old)) return old;
+      queryClient.setQueryData<Problem[] | undefined>(
+        ["problems"],
+        (oldData) => {
+          if (!oldData) return [problem];
 
-        const targetIndex = old.findIndex((p: any) => p.id === afterProblemId);
-        if (targetIndex === -1) return old;
+          const targetIndex = oldData.findIndex(
+            (p) => p.id === afterProblemId
+          );
+          if (targetIndex === -1) return oldData;
 
-        const newProblems = [...old];
-        newProblems.splice(targetIndex + 1, 0, problem);
-        return newProblems;
-      });
+          const newProblems = [...oldData];
+          newProblems.splice(targetIndex + 1, 0, problem);
+          return newProblems;
+        }
+      );
 
       return { previousProblems };
     },
@@ -98,7 +111,7 @@ export function useAddProblem() {
 
 type ReplaceProblemParams = {
   targetProblemId: number;
-  newProblem: any;
+  newProblem: Problem;
 };
 
 export function useReplaceProblem() {
@@ -126,39 +139,45 @@ export function useReplaceProblem() {
       });
 
       // 이전 데이터 백업
-      const previousProblems = queryClient.getQueryData(["problems"]);
-      const previousSimilarProblems = queryClient.getQueryData([
+      const previousProblems = queryClient.getQueryData<Problem[]>([
+        "problems",
+      ]);
+      const previousSimilarProblems = queryClient.getQueryData<Problem[]>([
         "problems",
         "similar",
         targetProblemId,
       ]);
 
       // problems에서 교체될 기존 문제 찾기
-      const problems = previousProblems as any[];
-      const targetProblem = problems?.find(
-        (p: any) => p.id === targetProblemId
+      const targetProblem = previousProblems?.find(
+        (p) => p.id === targetProblemId
       );
 
       // UI에서 즉시 교체 (problems)
-      queryClient.setQueryData(["problems"], (old: any) => {
-        if (!Array.isArray(old)) return old;
+      queryClient.setQueryData<Problem[] | undefined>(
+        ["problems"],
+        (oldData) => {
+          if (!oldData) return [newProblem];
 
-        const targetIndex = old.findIndex((p: any) => p.id === targetProblemId);
-        if (targetIndex === -1) return old;
+          const targetIndex = oldData.findIndex(
+            (p) => p.id === targetProblemId
+          );
+          if (targetIndex === -1) return oldData;
 
-        const newProblems = [...old];
-        newProblems[targetIndex] = newProblem;
-        return newProblems;
-      });
+          const newProblems = [...oldData];
+          newProblems[targetIndex] = newProblem;
+          return newProblems;
+        }
+      );
 
       // similarProblems에서 교체 (newProblem → targetProblem, length 유지)
       if (targetProblem && Array.isArray(previousSimilarProblems)) {
-        const updatedSimilarProblems = previousSimilarProblems.map((p: any) =>
+        const updatedSimilarProblems = previousSimilarProblems.map((p) =>
           p.id === newProblem.id ? targetProblem : p
         );
 
         // 새 active problem의 queryKey에 설정 (refetch 방지)
-        queryClient.setQueryData(
+        queryClient.setQueryData<Problem[]>(
           ["problems", "similar", newProblem.id],
           updatedSimilarProblems
         );
